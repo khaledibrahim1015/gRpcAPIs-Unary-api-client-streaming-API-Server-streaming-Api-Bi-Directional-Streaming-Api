@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Greet;
+using Grpc.Core;
 using System.ComponentModel.DataAnnotations;
 
 namespace Client
@@ -22,7 +23,26 @@ namespace Client
 
 
             // Client 
-            var Client = new dummyService.dummyServiceClient(channel);
+            //var Client = new dummyService.dummyServiceClient(channel);
+            var client = new GreetingService.GreetingServiceClient(channel);
+
+            var Request = new GreetingRequest()
+            {
+                Greeting = new Greeting()
+                {
+                    FirstName = "khaled",
+                    LastName = "ibrahim"
+                }
+            };
+
+
+         GreetingResponse response= client.Greet(Request);
+
+            Console.WriteLine(response.Result);
+
+
+
+
 
             channel.ShutdownAsync().Wait();
             Console.ReadKey();

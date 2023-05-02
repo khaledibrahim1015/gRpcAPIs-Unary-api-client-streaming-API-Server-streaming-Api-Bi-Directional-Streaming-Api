@@ -18,7 +18,7 @@ namespace server
 
             return Task.FromResult(new GreetingResponse()
             {
-                Result = string.Format($"Hello{request.Greeting.FirstName}{request.Greeting.LastName}")
+                Result = string.Format($"Hello {request.Greeting.FirstName} {request.Greeting.LastName} ")
             });
 
         }
