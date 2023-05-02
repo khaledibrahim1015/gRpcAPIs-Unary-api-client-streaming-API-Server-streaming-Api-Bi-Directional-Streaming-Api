@@ -7,6 +7,7 @@ namespace server
         const int port = 50051;
         static void Main(string[] args)
         {
+            // Server Class exist in Grpc.core
             Server server = null;
             try
             {

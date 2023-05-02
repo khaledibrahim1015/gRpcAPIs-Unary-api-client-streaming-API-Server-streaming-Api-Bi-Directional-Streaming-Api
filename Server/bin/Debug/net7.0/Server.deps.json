@@ -6,14 +6,14 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v7.0": {
-      "Server/1.0.0": {
+      "server/1.0.0": {
         "dependencies": {
           "Google.Protobuf": "3.22.3",
           "Grpc": "2.46.6",
           "Grpc.Tools": "2.54.0"
         },
         "runtime": {
-          "Server.dll": {}
+          "server.dll": {}
         }
       },
       "Google.Protobuf/3.22.3": {
@@ -84,7 +84,7 @@
     }
   },
   "libraries": {
-    "Server/1.0.0": {
+    "server/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

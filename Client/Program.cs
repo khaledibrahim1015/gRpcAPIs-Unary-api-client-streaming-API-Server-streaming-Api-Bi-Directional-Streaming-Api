@@ -1,10 +1,35 @@
-﻿namespace Client
+﻿using Grpc.Core;
+using System.ComponentModel.DataAnnotations;
+
+namespace Client
 {
     internal class Program
     {
+        const string target = "127.0.0.1:50051";// socket
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+
+            // Configuration To Connect on Server 
+            Channel channel = new Channel(target, ChannelCredentials.Insecure);
+            channel.ConnectAsync().ContinueWith((task) =>
+            {
+                if (task.Status == TaskStatus.RanToCompletion)
+                {
+                    Console.WriteLine("The Client Connected Successfully");
+                }
+            });
+
+
+            // Client 
+            var Client = new dummyService.dummyServiceClient(channel);
+
+            channel.ShutdownAsync().Wait();
+            Console.ReadKey();
+
+
+
+
         }
     }
 }
