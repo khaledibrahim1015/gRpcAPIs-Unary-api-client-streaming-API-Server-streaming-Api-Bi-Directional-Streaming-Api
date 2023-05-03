@@ -24,22 +24,40 @@ namespace Client
 
             // Client 
             //var Client = new dummyService.dummyServiceClient(channel);
-            var client = new GreetingService.GreetingServiceClient(channel);
 
-            var Request = new GreetingRequest()
+            #region GreetingService
+
+            //var client = new GreetingService.GreetingServiceClient(channel);
+
+            //var Request = new GreetingRequest()
+            //{
+            //    Greeting = new Greeting()
+            //    {
+            //        FirstName = "khaled",
+            //        LastName = "ibrahim"
+            //    }
+            //};
+
+
+            // GreetingResponse response= client.Greet(Request);
+
+            //Console.WriteLine(response.Result); 
+            #endregion
+
+
+            var client = new CalclatorServive.CalclatorServiveClient(channel);
+
+            CalclatorRequest calclatorRequest = new CalclatorRequest()
             {
-                Greeting = new Greeting()
+                Calculator = new Calculator()
                 {
-                    FirstName = "khaled",
-                    LastName = "ibrahim"
+                    Number1 = 3,
+                    Number2 = 10
                 }
             };
 
-
-         GreetingResponse response= client.Greet(Request);
-
-            Console.WriteLine(response.Result);
-
+            CalclatorResponse calclatorResponse =client.Sum(calclatorRequest);
+            Console.WriteLine(calclatorResponse.Result);
 
 
 

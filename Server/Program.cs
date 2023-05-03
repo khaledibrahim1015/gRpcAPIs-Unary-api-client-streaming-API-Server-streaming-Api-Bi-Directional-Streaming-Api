@@ -17,7 +17,8 @@ namespace server
                 {
                     // Register services 
                     // when client call GreetingServive => call impelementation 
-                    Services = {GreetingService.BindService(new GreetingServiceImplentation())},
+                    Services = {GreetingService.BindService(new GreetingServiceImplentation()),
+                                CalclatorServive.BindService(new CalaculatorServiceImplementation())},
                     Ports = { new ServerPort("localhost", port, ServerCredentials.Insecure) }
                 };
                 server.Start();
