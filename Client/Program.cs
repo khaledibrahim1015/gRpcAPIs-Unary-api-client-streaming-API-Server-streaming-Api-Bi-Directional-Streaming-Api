@@ -117,8 +117,71 @@ namespace Client
             // } 
             #endregion
 
+            // Impelement LongGreetService => Client Streaming 
+
+            var client = new GreetingService.GreetingServiceClient(channel);
 
 
+            List<LongGreetRequest> RequestsStream = new List<LongGreetRequest>()
+            {
+                new LongGreetRequest()
+                {
+                    Greeting= new Greeting()
+                    {
+                        FirstName="khaled",
+                        LastName="Ibra"
+                    }
+                },
+                new LongGreetRequest()
+                {
+                    Greeting= new Greeting()
+                    {
+                        FirstName="Mariam",
+                        LastName="omar"
+                    }
+                },
+                new LongGreetRequest()
+                {
+                    Greeting= new Greeting()
+                    {
+                        FirstName="omar",
+                        LastName="Ibra"
+                    }
+                },
+                new LongGreetRequest()
+                {
+                    Greeting= new Greeting()
+                    {
+                        FirstName="ahmed",
+                        LastName="mohamed"
+                    }
+                },
+                new LongGreetRequest()
+                {
+                    Greeting= new Greeting()
+                    {
+                        FirstName="leo",
+                        LastName="messi"
+                    }
+                },
+            };
+
+            // Write On stream that mean does not take any parameter 
+           var stream= client.LongGreet();
+
+            foreach (var RequestStream in RequestsStream)
+            {
+                // Write one by one 
+               await stream.RequestStream.WriteAsync(RequestStream);
+            }
+
+            // When client no more write on stream 
+            await stream.RequestStream.CompleteAsync();
+
+
+            var Response =await stream.ResponseAsync;
+
+            Console.WriteLine(Response.Result);
 
 
 
