@@ -70,6 +70,32 @@ namespace server
 
         }
 
+        // act as server recived list of <LongGreetRequest>
+        // Read one by one the same happened in the client side 
+
+
+        public override async Task<LongGreetResponse> LongGreet(IAsyncStreamReader<LongGreetRequest> requestStream, 
+            ServerCallContext context)
+        {
+            // The server will only response to the client once the client is done sending requests 
+            // but in theory the server can response whenever it wants
+            string result = "";
+            while (await requestStream.MoveNext())
+            {
+               var currentRequest=  requestStream.Current;
+                result += string.Format($"Hello {currentRequest.Greeting.FirstName} {currentRequest.Greeting.LastName}", Environment.NewLine);
+
+            }
+
+
+            return new LongGreetResponse()
+            {
+                Result = result
+            };
+
+
+        }
+
 
     }
 }

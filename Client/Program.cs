@@ -45,7 +45,6 @@ namespace Client
             //Console.WriteLine(response.Result); 
             #endregion
 
-
             #region Impelemet CalclatorServive => Unary API
 
 
@@ -95,29 +94,33 @@ namespace Client
 
             #endregion
 
+            #region Impelement PrimeNumberService => Server Streaming
+            // List<PrimeNumberDecompositionResponse> responsesLst=new List<PrimeNumberDecompositionResponse>();
+
+            // var client = new PrimeNumberService.PrimeNumberServiceClient(channel);
+
+            // var request = new PrimeNumberDecompositionRequest() {Number=210 };
+
+            //var response= client.PrimeNumberDecomposition(request);
+
+
+            // while ( await response.ResponseStream.MoveNext())
+            // {
+
+            //     //var currentResponse = response.ResponseStream.Current;
+            //     //Console.WriteLine(currentResponse.PrimeFactor);
+            //     responsesLst.Add(response.ResponseStream.Current);
+            // }
+            // foreach (var item in responsesLst)
+            // {
+            //     Console.WriteLine(item.PrimeFactor);
+            // } 
+            #endregion
 
 
 
-            List<PrimeNumberDecompositionResponse> responsesLst=new List<PrimeNumberDecompositionResponse>();
-
-            var client = new PrimeNumberService.PrimeNumberServiceClient(channel);
-
-            var request = new PrimeNumberDecompositionRequest() {Number=210 };
-
-           var response= client.PrimeNumberDecomposition(request);
 
 
-            while ( await response.ResponseStream.MoveNext())
-            {
-
-                //var currentResponse = response.ResponseStream.Current;
-                //Console.WriteLine(currentResponse.PrimeFactor);
-                responsesLst.Add(response.ResponseStream.Current);
-            }
-            foreach (var item in responsesLst)
-            {
-                Console.WriteLine(item.PrimeFactor);
-            }
 
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
