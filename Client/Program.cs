@@ -14,13 +14,13 @@ namespace Client
 
             // Configuration To Connect on Server 
             Channel channel = new Channel(target, ChannelCredentials.Insecure);
-           await channel.ConnectAsync().ContinueWith((task) =>
-            {
-                if (task.Status == TaskStatus.RanToCompletion)
-                {
-                    Console.WriteLine("The Client Connected Successfully");
-                }
-            });
+            await channel.ConnectAsync().ContinueWith((task) =>
+             {
+                 if (task.Status == TaskStatus.RanToCompletion)
+                 {
+                     Console.WriteLine("The Client Connected Successfully");
+                 }
+             });
 
 
             // Client 
@@ -117,7 +117,6 @@ namespace Client
             // } 
             #endregion
 
-
             #region Impelement LongGreetService => Client Streaming 
             // Impelement LongGreetService => Client Streaming 
 
@@ -188,37 +187,124 @@ namespace Client
             // Console.WriteLine(Response.Result); 
             #endregion
 
+            #region Impelement ComputeAverage Service => Client Streaming 
 
-            var client = new AverageService.AverageServiceClient(channel);
+            // var client = new AverageService.AverageServiceClient(channel);
 
-            // Then Open stream 
-           var stream  = client.ComputeAverage();
+            // // Then Open stream 
+            //var stream  = client.ComputeAverage();
 
-            // request Stream to Write On it One By one 
-            // Once Stream of Requests end Completed 
-            //  client Recive Response From Server 
+            // // request Stream to Write On it One By one 
+            // // Once Stream of Requests end Completed 
+            // //  client Recive Response From Server 
 
-            AverageRequest[] NumbersOFAverageRequests = new AverageRequest[]
+            // AverageRequest[] NumbersOFAverageRequests = new AverageRequest[]
+            // {
+            //     new AverageRequest{Number=1},
+            //     new AverageRequest{Number=2},
+            //      new AverageRequest{Number=3},
+            //     new AverageRequest{Number=4}
+            // };
+
+            // foreach (var NumberOFAverageRequest in NumbersOFAverageRequests)
+            // {
+            //     // Write On Stream 
+            //     await stream.RequestStream.WriteAsync(NumberOFAverageRequest);
+            // }
+
+            // await stream.RequestStream.CompleteAsync();
+
+            // var Response = stream.ResponseAsync;
+
+            // Console.WriteLine(Response.Result); 
+            #endregion
+
+
+
+
+
+
+
+
+
+            var client = new GreetingService.GreetingServiceClient(channel);
+
+            
+            //  Open stream
+            var stream = client.GreetEveryOne();
+
+
+            //Server streaming 
+            // Get Response Later When Client send all requests to Server 
+            // Read From Stream response by response 
+            var responseReader = Task.Run(async () =>
             {
-                new AverageRequest{Number=1},
-                new AverageRequest{Number=2},
-                 new AverageRequest{Number=3},
-                new AverageRequest{Number=4}
+                while (await stream.ResponseStream.MoveNext())
+                {
+                    var currentResponse = stream.ResponseStream.Current;
+                    Console.WriteLine("Recived Response : "+currentResponse.Result);
+                }
+
+            });
+
+
+
+
+
+            // client streaming 
+            List<GreetEveryOneRequest> greetEveryOneRequests = new List<GreetEveryOneRequest>()
+            {
+                new GreetEveryOneRequest()
+                {
+                    Greeting= new Greeting()
+                    {
+                        FirstName="khaled",
+                        LastName="ibra"
+                    }
+                },
+                new GreetEveryOneRequest()
+                {
+                    Greeting= new Greeting()
+                    {
+                        FirstName="khaled",
+                        LastName="ibra"
+                    }
+                },
+                 new GreetEveryOneRequest()
+                {
+                     Greeting= new Greeting()
+                     {
+                         FirstName="khaled",
+                         LastName="ibra"
+                      }
+                 },
+                     new GreetEveryOneRequest()
+                                    {
+                    Greeting= new Greeting()
+                    {
+                        FirstName="khaled",
+                        LastName="ibra"
+                    }
+                },
+
             };
 
-            foreach (var NumberOFAverageRequest in NumbersOFAverageRequests)
+
+
+            // request stream => write on it one by one 
+            foreach (var greetEveryOneRequest in greetEveryOneRequests)
             {
-                // Write On Stream 
-                await stream.RequestStream.WriteAsync(NumberOFAverageRequest);
+                Console.WriteLine("Sending Request : "+ greetEveryOneRequest.ToString());
+              await  stream.RequestStream.WriteAsync(greetEveryOneRequest);
+
+                
             }
 
+            // End Stream of request 
             await stream.RequestStream.CompleteAsync();
 
-            var Response = stream.ResponseAsync;
-
-            Console.WriteLine(Response.Result);
-
-
+            // Call Thread to Get stream Response 
+            await responseReader;
 
 
             channel.ShutdownAsync().Wait();

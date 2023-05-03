@@ -102,5 +102,43 @@ namespace server
         }
 
 
+        ///  Impelement Bi Directional Streaming
+        public override async Task GreetEveryOne(IAsyncStreamReader<GreetEveryOneRequest> requestStream,
+            IServerStreamWriter<GreetEveryOneResponse> responseStream,
+            ServerCallContext context)
+        {
+
+            // Client Streaming 
+
+            // act as List of request => stream 
+            //  Read One By One 
+
+            while (await  requestStream.MoveNext())
+            {
+                var CurrentRequest = requestStream.Current;
+                var result = string.Format($"{CurrentRequest.Greeting.FirstName} {CurrentRequest.Greeting.LastName}");
+                Console.WriteLine($"Request Recived " + result);
+
+                //  Server Streaming 
+                //  Act as response list of responses
+
+                //  Write on stream one by one 
+               await  responseStream.WriteAsync(new GreetEveryOneResponse { Result=result});
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+        }
+
+
     }
 }
