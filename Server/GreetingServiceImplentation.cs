@@ -36,34 +36,34 @@ namespace server
         {
             // 1 -way 
 
-            // List<GreetingManyTimesResponse> greetingManyTimesResponses = new List<GreetingManyTimesResponse>()
-            //{
-            //    new GreetingManyTimesResponse()
-            //    {
-            //        Result=string.Format($"{request.Greeting.FirstName} {request.Greeting.LastName}")
-            //    },
-            //     new GreetingManyTimesResponse()
-            //    {
-            //        Result=string.Format($"{request.Greeting.FirstName} {request.Greeting.LastName}")
-            //    }
-
-            //};
-
-            // // Sending responses but one by one 
-
-            // foreach (var response in greetingManyTimesResponses)
-            // {
-            //   await  responseStream.WriteAsync(response);
-            // }
-
-            // another way 
-            Console.WriteLine($"The server recived one Request {request.Greeting.FirstName} , {request.Greeting.LastName}");
-
-
-            foreach (var i in Enumerable.Range(0,10))
+            List<GreetingManyTimesResponse> greetingManyTimesResponses = new List<GreetingManyTimesResponse>()
             {
-                await responseStream.WriteAsync(new GreetingManyTimesResponse() { Result = string.Format($"hello  {request.Greeting.FirstName} {request.Greeting.LastName}") });
+                new GreetingManyTimesResponse()
+                {
+                    Result=string.Format($"{request.Greeting.FirstName} {request.Greeting.LastName}")
+                },
+                 new GreetingManyTimesResponse()
+                {
+                    Result=string.Format($"{request.Greeting.FirstName} {request.Greeting.LastName}")
+                }
+
+            };
+
+            // Sending responses but one by one 
+
+            foreach (var response in greetingManyTimesResponses)
+            {
+                await responseStream.WriteAsync(response);
             }
+
+            //// another way 
+            //Console.WriteLine($"The server recived one Request {request.Greeting.FirstName} , {request.Greeting.LastName}");
+
+
+            //foreach (var i in Enumerable.Range(0,10))
+            //{
+            //    await responseStream.WriteAsync(new GreetingManyTimesResponse() { Result = string.Format($"{i} hello  {request.Greeting.FirstName} {request.Greeting.LastName}") });
+            //}
 
 
 

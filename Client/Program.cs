@@ -1,6 +1,7 @@
 ﻿using Greet;
 using Grpc.Core;
 using System.ComponentModel.DataAnnotations;
+using System.Xml;
 
 namespace Client
 {
@@ -8,12 +9,12 @@ namespace Client
     {
         const string target = "127.0.0.1:50051";// socket
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
 
             // Configuration To Connect on Server 
             Channel channel = new Channel(target, ChannelCredentials.Insecure);
-            channel.ConnectAsync().ContinueWith((task) =>
+           await channel.ConnectAsync().ContinueWith((task) =>
             {
                 if (task.Status == TaskStatus.RanToCompletion)
                 {
@@ -45,19 +46,51 @@ namespace Client
             #endregion
 
 
-            var client = new CalclatorServive.CalclatorServiveClient(channel);
+            #region Impelemet CalclatorServive => Unary API
 
-            CalclatorRequest calclatorRequest = new CalclatorRequest()
+
+            //var client = new CalclatorServive.CalclatorServiveClient(channel);
+
+            //CalclatorRequest calclatorRequest = new CalclatorRequest()
+            //{
+            //    Calculator = new Calculator()
+            //    {
+            //        Number1 = 3,
+            //        Number2 = 10
+            //    }
+            //};
+
+            //CalclatorResponse calclatorResponse =client.Sum(calclatorRequest);
+            //Console.WriteLine(calclatorResponse.Result);
+
+            #endregion
+
+
+            //  Impelement GreetingManyTimes => Server Streaming
+
+
+            var client = new GreetingService.GreetingServiceClient(channel);
+            var request = new GreetingManytimesRequest()
             {
-                Calculator = new Calculator()
+                Greeting = new Greeting()
                 {
-                    Number1 = 3,
-                    Number2 = 10
+                    FirstName = "khaled",
+                    LastName = "ibrahim"
                 }
             };
 
-            CalclatorResponse calclatorResponse =client.Sum(calclatorRequest);
-            Console.WriteLine(calclatorResponse.Result);
+
+            // Note Response of type stream 
+            
+          var response=  client.GreetManyTimes(request);
+
+            while (await response.ResponseStream.MoveNext())
+            {
+                var CurrentResponse= response.ResponseStream.Current;
+                Console.WriteLine(CurrentResponse.Result);
+               await Task.Delay(1000);
+            }
+          
 
 
 
