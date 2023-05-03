@@ -65,35 +65,59 @@ namespace Client
 
             #endregion
 
+            #region Impelement GreetingManyTimes => Server Streaming
 
             //  Impelement GreetingManyTimes => Server Streaming
 
 
-            var client = new GreetingService.GreetingServiceClient(channel);
-            var request = new GreetingManytimesRequest()
+            //  var client = new GreetingService.GreetingServiceClient(channel);
+            //  var request = new GreetingManytimesRequest()
+            //  {
+            //      Greeting = new Greeting()
+            //      {
+            //          FirstName = "khaled",
+            //          LastName = "ibrahim"
+            //      }
+            //  };
+
+
+            //  // Note Response of type stream 
+
+            //var response=  client.GreetManyTimes(request);
+
+            //  while (await response.ResponseStream.MoveNext())
+            //  {
+            //      var CurrentResponse= response.ResponseStream.Current;
+            //      Console.WriteLine(CurrentResponse.Result);
+            //     await Task.Delay(1000);
+            //  }
+
+
+            #endregion
+
+
+
+
+            List<PrimeNumberDecompositionResponse> responsesLst=new List<PrimeNumberDecompositionResponse>();
+
+            var client = new PrimeNumberService.PrimeNumberServiceClient(channel);
+
+            var request = new PrimeNumberDecompositionRequest() {Number=210 };
+
+           var response= client.PrimeNumberDecomposition(request);
+
+
+            while ( await response.ResponseStream.MoveNext())
             {
-                Greeting = new Greeting()
-                {
-                    FirstName = "khaled",
-                    LastName = "ibrahim"
-                }
-            };
 
-
-            // Note Response of type stream 
-            
-          var response=  client.GreetManyTimes(request);
-
-            while (await response.ResponseStream.MoveNext())
-            {
-                var CurrentResponse= response.ResponseStream.Current;
-                Console.WriteLine(CurrentResponse.Result);
-               await Task.Delay(1000);
+                //var currentResponse = response.ResponseStream.Current;
+                //Console.WriteLine(currentResponse.PrimeFactor);
+                responsesLst.Add(response.ResponseStream.Current);
             }
-          
-
-
-
+            foreach (var item in responsesLst)
+            {
+                Console.WriteLine(item.PrimeFactor);
+            }
 
             channel.ShutdownAsync().Wait();
             Console.ReadKey();
