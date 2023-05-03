@@ -117,71 +117,107 @@ namespace Client
             // } 
             #endregion
 
+
+            #region Impelement LongGreetService => Client Streaming 
             // Impelement LongGreetService => Client Streaming 
 
-            var client = new GreetingService.GreetingServiceClient(channel);
 
 
-            List<LongGreetRequest> RequestsStream = new List<LongGreetRequest>()
+            // var client = new GreetingService.GreetingServiceClient(channel);
+
+
+            // List<LongGreetRequest> RequestsStream = new List<LongGreetRequest>()
+            // {
+            //     new LongGreetRequest()
+            //     {
+            //         Greeting= new Greeting()
+            //         {
+            //             FirstName="khaled",
+            //             LastName="Ibra"
+            //         }
+            //     },
+            //     new LongGreetRequest()
+            //     {
+            //         Greeting= new Greeting()
+            //         {
+            //             FirstName="Mariam",
+            //             LastName="omar"
+            //         }
+            //     },
+            //     new LongGreetRequest()
+            //     {
+            //         Greeting= new Greeting()
+            //         {
+            //             FirstName="omar",
+            //             LastName="Ibra"
+            //         }
+            //     },
+            //     new LongGreetRequest()
+            //     {
+            //         Greeting= new Greeting()
+            //         {
+            //             FirstName="ahmed",
+            //             LastName="mohamed"
+            //         }
+            //     },
+            //     new LongGreetRequest()
+            //     {
+            //         Greeting= new Greeting()
+            //         {
+            //             FirstName="leo",
+            //             LastName="messi"
+            //         }
+            //     },
+            // };
+
+            // // Write On stream that mean does not take any parameter 
+            //var stream= client.LongGreet();
+
+            // foreach (var RequestStream in RequestsStream)
+            // {
+            //     // Write one by one 
+            //    await stream.RequestStream.WriteAsync(RequestStream);
+            // }
+
+            // // When client no more write on stream 
+            // await stream.RequestStream.CompleteAsync();
+
+
+            // var Response =await stream.ResponseAsync;
+
+            // Console.WriteLine(Response.Result); 
+            #endregion
+
+
+            var client = new AverageService.AverageServiceClient(channel);
+
+            // Then Open stream 
+           var stream  = client.ComputeAverage();
+
+            // request Stream to Write On it One By one 
+            // Once Stream of Requests end Completed 
+            //  client Recive Response From Server 
+
+            AverageRequest[] NumbersOFAverageRequests = new AverageRequest[]
             {
-                new LongGreetRequest()
-                {
-                    Greeting= new Greeting()
-                    {
-                        FirstName="khaled",
-                        LastName="Ibra"
-                    }
-                },
-                new LongGreetRequest()
-                {
-                    Greeting= new Greeting()
-                    {
-                        FirstName="Mariam",
-                        LastName="omar"
-                    }
-                },
-                new LongGreetRequest()
-                {
-                    Greeting= new Greeting()
-                    {
-                        FirstName="omar",
-                        LastName="Ibra"
-                    }
-                },
-                new LongGreetRequest()
-                {
-                    Greeting= new Greeting()
-                    {
-                        FirstName="ahmed",
-                        LastName="mohamed"
-                    }
-                },
-                new LongGreetRequest()
-                {
-                    Greeting= new Greeting()
-                    {
-                        FirstName="leo",
-                        LastName="messi"
-                    }
-                },
+                new AverageRequest{Number=1},
+                new AverageRequest{Number=2},
+                 new AverageRequest{Number=3},
+                new AverageRequest{Number=4}
             };
 
-            // Write On stream that mean does not take any parameter 
-           var stream= client.LongGreet();
-
-            foreach (var RequestStream in RequestsStream)
+            foreach (var NumberOFAverageRequest in NumbersOFAverageRequests)
             {
-                // Write one by one 
-               await stream.RequestStream.WriteAsync(RequestStream);
+                // Write On Stream 
+                await stream.RequestStream.WriteAsync(NumberOFAverageRequest);
             }
 
-            // When client no more write on stream 
             await stream.RequestStream.CompleteAsync();
 
-
-            var Response =await stream.ResponseAsync;
+            var Response = stream.ResponseAsync;
 
             Console.WriteLine(Response.Result);
+
 
 
 
