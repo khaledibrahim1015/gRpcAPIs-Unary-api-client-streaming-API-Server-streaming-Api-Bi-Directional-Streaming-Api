@@ -20,7 +20,8 @@ namespace server
                     Services = {GreetingService.BindService(new GreetingServiceImplentation()),
                                 CalclatorServive.BindService(new CalaculatorServiceImplementation()),
                                 PrimeNumberService.BindService(new PrimeNumberServiceImpl()),
-                                AverageService.BindService(new AverageServiceImpl())
+                                AverageService.BindService(new AverageServiceImpl()),
+                                FindMaxService.BindService(new FindMaxServiceImpl())
                     },
                     Ports = { new ServerPort("localhost", port, ServerCredentials.Insecure) }
                 };

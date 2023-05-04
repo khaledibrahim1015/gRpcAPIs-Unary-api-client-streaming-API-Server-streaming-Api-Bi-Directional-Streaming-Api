@@ -219,92 +219,131 @@ namespace Client
             // Console.WriteLine(Response.Result); 
             #endregion
 
+            #region Impelement GreetEveryOneService => Bi Directional Streaming
+
+            //var client = new GreetingService.GreetingServiceClient(channel);
+
+
+            ////  Open stream
+            //var stream = client.GreetEveryOne();
+
+
+            ////Server streaming 
+            //// Get Response Later When Client send all requests to Server 
+            //// Read From Stream response by response 
+            //var responseReader = Task.Run(async () =>
+            //{
+            //    while (await stream.ResponseStream.MoveNext())
+            //    {
+            //        var currentResponse = stream.ResponseStream.Current;
+            //        Console.WriteLine("Recived Response : " + currentResponse.Result);
+            //    }
+
+            //});
+
+
+            //// client streaming 
+            //List<GreetEveryOneRequest> greetEveryOneRequests = new List<GreetEveryOneRequest>()
+            //{
+            //    new GreetEveryOneRequest()
+            //    {
+            //        Greeting= new Greeting()
+            //        {
+            //            FirstName="khaled",
+            //            LastName="ibra"
+            //        }
+            //    },
+            //    new GreetEveryOneRequest()
+            //    {
+            //        Greeting= new Greeting()
+            //        {
+            //            FirstName="khaled",
+            //            LastName="ibra"
+            //        }
+            //    },
+            //     new GreetEveryOneRequest()
+            //    {
+            //         Greeting= new Greeting()
+            //         {
+            //             FirstName="khaled",
+            //             LastName="ibra"
+            //          }
+            //     },
+            //         new GreetEveryOneRequest()
+            //                        {
+            //        Greeting= new Greeting()
+            //        {
+            //            FirstName="khaled",
+            //            LastName="ibra"
+            //        }
+            //    },
+
+            //};
 
 
 
+            //// request stream => write on it one by one 
+            //foreach (var greetEveryOneRequest in greetEveryOneRequests)
+            //{
+            //    Console.WriteLine("Sending Request : "+ greetEveryOneRequest.ToString());
+            //  await  stream.RequestStream.WriteAsync(greetEveryOneRequest);
+
+
+            //}
+
+            //// End Stream of request 
+            //await stream.RequestStream.CompleteAsync();
+
+            //// Call Thread to Get stream Response 
+            //await responseReader; 
+            #endregion
 
 
 
+            // Impelement FindMaxServic => Bi Directional Streaming
 
+            var client = new FindMaxService.FindMaxServiceClient(channel);
 
-            var client = new GreetingService.GreetingServiceClient(channel);
+            // Open stream 
+          var stream =  client.FindMaximum();
 
-            
-            //  Open stream
-            var stream = client.GreetEveryOne();
-
-
-            //Server streaming 
-            // Get Response Later When Client send all requests to Server 
-            // Read From Stream response by response 
-            var responseReader = Task.Run(async () =>
+            // Server Streaming 
+            var ResponseReader = Task.Run(async () =>
             {
+                // Read one by one from stream 
                 while (await stream.ResponseStream.MoveNext())
                 {
                     var currentResponse = stream.ResponseStream.Current;
-                    Console.WriteLine("Recived Response : "+currentResponse.Result);
+                    Console.WriteLine($"Recived Response {currentResponse.Max}");
                 }
 
             });
 
+            // Client Streaming 
+            
 
-
-
-
-            // client streaming 
-            List<GreetEveryOneRequest> greetEveryOneRequests = new List<GreetEveryOneRequest>()
+            FindMaxRequest[] findMaxRequests = new FindMaxRequest[]
             {
-                new GreetEveryOneRequest()
-                {
-                    Greeting= new Greeting()
-                    {
-                        FirstName="khaled",
-                        LastName="ibra"
-                    }
-                },
-                new GreetEveryOneRequest()
-                {
-                    Greeting= new Greeting()
-                    {
-                        FirstName="khaled",
-                        LastName="ibra"
-                    }
-                },
-                 new GreetEveryOneRequest()
-                {
-                     Greeting= new Greeting()
-                     {
-                         FirstName="khaled",
-                         LastName="ibra"
-                      }
-                 },
-                     new GreetEveryOneRequest()
-                                    {
-                    Greeting= new Greeting()
-                    {
-                        FirstName="khaled",
-                        LastName="ibra"
-                    }
-                },
-
+                new FindMaxRequest{Number=1},
+                new FindMaxRequest{Number=5},
+                new FindMaxRequest{Number=3},
+                new FindMaxRequest{Number=6},
+                new FindMaxRequest{Number=2},
+                new FindMaxRequest{Number=20},
             };
-
-
-
-            // request stream => write on it one by one 
-            foreach (var greetEveryOneRequest in greetEveryOneRequests)
+            // Write Requests one by one on stream 
+            foreach (var findMaxRequest in findMaxRequests)
             {
-                Console.WriteLine("Sending Request : "+ greetEveryOneRequest.ToString());
-              await  stream.RequestStream.WriteAsync(greetEveryOneRequest);
-
-                
+              await  stream.RequestStream.WriteAsync(findMaxRequest);
             }
+            //Once Reuests Stream End 
+           await stream.RequestStream.CompleteAsync();
 
-            // End Stream of request 
-            await stream.RequestStream.CompleteAsync();
+            // Call thread Responses stream 
+            await ResponseReader;
 
-            // Call Thread to Get stream Response 
-            await responseReader;
+
+
 
 
             channel.ShutdownAsync().Wait();
