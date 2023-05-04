@@ -347,12 +347,38 @@ namespace Client
             // Error Handling 
             #region SqrtService => UnaryAPI
             ////SqrtService => UnaryAPI
-            //int number = -1;
-            //DoSqrtServicUnaryApi(channel,number); 
+            ///
+
+
+            //     int number = -1;
+            //     DoSqrtServicUnaryApi(channel,number); 
             #endregion
 
+            // Deadline 
+            // Deadline exceded
+
+           
+
+            var client = new GreatDeadLineServive.GreatDeadLineServiveClient(channel);
 
 
+            try
+            {
+                client.GreatDeadLine(new GreatRequest() { Number = 10 },
+
+                                                        deadline: DateTime.UtcNow.AddMilliseconds(1000)       // named parameter  
+                                                                                                              // here set client with deadline if server response before deadline finished => completed
+                                                                                                              //  else client will cancel request and return deadline excede error 
+                    );
+
+
+
+            }
+            catch (RpcException e) when (e.StatusCode == StatusCode.DeadlineExceeded)   // here will throw exception when => 
+            {
+
+                Console.WriteLine("Error " + e.Status.Detail);
+            }
 
 
 
@@ -397,6 +423,36 @@ namespace Client
           
         }
 
+
+        /// 
+        // Deadline 
+        // Deadline exceded
+
+        public static void DoGreatDeadLineService(Channel channel)
+        {
+            var client = new GreatDeadLineServive.GreatDeadLineServiveClient(channel);
+
+
+            try
+            {
+                client.GreatDeadLine(new GreatRequest() { Number = 10 },
+
+                                                        deadline: DateTime.UtcNow.AddMilliseconds(5000)       // named parameter  
+                                                        // here set client with deadline if server response before deadline finished => completed
+                                                        //  else client will cancel request and return deadline excede error 
+                    );
+
+
+
+            }
+            catch (RpcException e) when (e.StatusCode == StatusCode.DeadlineExceeded)   // here will throw exception when => 
+            {
+
+                Console.WriteLine("Error" + e.Status.Detail);
+            }
+
+
+        }
 
 
 

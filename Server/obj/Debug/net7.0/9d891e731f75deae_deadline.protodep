@@ -1,0 +1,2 @@
+models/Deadline.cs \
+models/DeadlineGrpc.cs: ../deadline.proto

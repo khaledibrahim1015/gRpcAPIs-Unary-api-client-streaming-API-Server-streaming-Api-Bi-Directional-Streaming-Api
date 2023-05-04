@@ -1,0 +1,5 @@
+we will impelement the server to return response after 3000m
+the server will check if the client cancelled the request 
+
+we will impelement the client to set a deadline of 5000m //  in first will complette 
+we will impelement the client to set a deadline of 1000m //  error deadline exceded

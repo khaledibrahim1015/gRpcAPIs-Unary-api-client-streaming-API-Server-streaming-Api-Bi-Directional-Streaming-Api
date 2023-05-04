@@ -1,0 +1,13 @@
+syntax="proto3";
+
+message GreatRequest{
+	int32 number =1;
+}
+
+message GreatResponse{
+	string result = 1 ;
+}
+
+service GreatDeadLineServive {
+	rpc GreatDeadLine(GreatRequest) returns (GreatResponse){}
+}

@@ -22,7 +22,8 @@ namespace server
                                 PrimeNumberService.BindService(new PrimeNumberServiceImpl()),
                                 AverageService.BindService(new AverageServiceImpl()),
                                 FindMaxService.BindService(new FindMaxServiceImpl()),
-                                SqrtService.BindService(new SqrtServiceImpl())
+                                SqrtService.BindService(new SqrtServiceImpl()),
+                                GreatDeadLineServive.BindService(new GreatingDeadLineServiceImpl())
                     },
                     Ports = { new ServerPort("localhost", port, ServerCredentials.Insecure) }
                 };
