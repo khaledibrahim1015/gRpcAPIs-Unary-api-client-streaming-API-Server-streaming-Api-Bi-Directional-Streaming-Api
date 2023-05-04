@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server", "Server\server.csproj", "{E8A86E43-3581-4B85-913F-8790A5D21DCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{EFAF434D-502C-4145-BBDF-DAFC4E60ED11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proto", "proto", "{ADC9D769-64D4-45C1-A736-A9ECCAE4EEEF}"
+	ProjectSection(SolutionItems) = preProject
+		average.proto = average.proto
+		calculator.proto = calculator.proto
+		dummy.proto = dummy.proto
+		greeting.proto = greeting.proto
+		max.proto = max.proto
+		prime.proto = prime.proto
+		sqrt.proto = sqrt.proto
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8A86E43-3581-4B85-913F-8790A5D21DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A86E43-3581-4B85-913F-8790A5D21DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A86E43-3581-4B85-913F-8790A5D21DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A86E43-3581-4B85-913F-8790A5D21DCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFAF434D-502C-4145-BBDF-DAFC4E60ED11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFAF434D-502C-4145-BBDF-DAFC4E60ED11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFAF434D-502C-4145-BBDF-DAFC4E60ED11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFAF434D-502C-4145-BBDF-DAFC4E60ED11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A183E8D6-2DDE-4029-B837-B60C861DAE8B}
+	EndGlobalSection
+EndGlobal

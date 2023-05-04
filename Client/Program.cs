@@ -298,49 +298,71 @@ namespace Client
             //await responseReader; 
             #endregion
 
+            #region Impelement FindMaxServic => Bi Directional Streaming
+            //  var client = new FindMaxService.FindMaxServiceClient(channel);
+
+            //  // Open stream 
+            //var stream =  client.FindMaximum();
+
+            //  // Server Streaming 
+            //  var ResponseReader = Task.Run(async () =>
+            //  {
+            //      // Read one by one from stream 
+            //      while (await stream.ResponseStream.MoveNext())
+            //      {
+            //          var currentResponse = stream.ResponseStream.Current;
+            //          Console.WriteLine($"Recived Response {currentResponse.Max}");
+            //      }
+
+            //  });
+
+            //  // Client Streaming 
 
 
-            // Impelement FindMaxServic => Bi Directional Streaming
+            //  FindMaxRequest[] findMaxRequests = new FindMaxRequest[]
+            //  {
+            //      new FindMaxRequest{Number=1},
+            //      new FindMaxRequest{Number=5},
+            //      new FindMaxRequest{Number=3},
+            //      new FindMaxRequest{Number=6},
+            //      new FindMaxRequest{Number=2},
+            //      new FindMaxRequest{Number=20},
+            //  };
+            //  // Write Requests one by one on stream 
+            //  foreach (var findMaxRequest in findMaxRequests)
+            //  {
+            //    await  stream.RequestStream.WriteAsync(findMaxRequest);
+            //  }
+            //  //Once Reuests Stream End 
+            // await stream.RequestStream.CompleteAsync();
 
-            var client = new FindMaxService.FindMaxServiceClient(channel);
+            //  // Call thread Responses stream 
+            //  await ResponseReader; 
+            #endregion
 
-            // Open stream 
-          var stream =  client.FindMaximum();
 
-            // Server Streaming 
-            var ResponseReader = Task.Run(async () =>
-            {
-                // Read one by one from stream 
-                while (await stream.ResponseStream.MoveNext())
-                {
-                    var currentResponse = stream.ResponseStream.Current;
-                    Console.WriteLine($"Recived Response {currentResponse.Max}");
-                }
 
-            });
 
-            // Client Streaming 
-            
 
-            FindMaxRequest[] findMaxRequests = new FindMaxRequest[]
-            {
-                new FindMaxRequest{Number=1},
-                new FindMaxRequest{Number=5},
-                new FindMaxRequest{Number=3},
-                new FindMaxRequest{Number=6},
-                new FindMaxRequest{Number=2},
-                new FindMaxRequest{Number=20},
-            };
-            // Write Requests one by one on stream 
-            foreach (var findMaxRequest in findMaxRequests)
-            {
-              await  stream.RequestStream.WriteAsync(findMaxRequest);
-            }
-            //Once Reuests Stream End 
-           await stream.RequestStream.CompleteAsync();
+            // Error Handling 
+            int number = -1;
+            DoSqrtServicUnaryApi(channel,number);
 
-            // Call thread Responses stream 
-            await ResponseReader;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -353,5 +375,31 @@ namespace Client
 
 
         }
+        /// Error handling 
+        /// 
+        public static void DoSqrtServicUnaryApi( Channel channel,int number)
+        {
+            var client = new SqrtService.SqrtServiceClient(channel);
+            try
+            {
+                var response = client.Sqrt(new SqrtRequest() { Number = number });
+                Console.WriteLine("The sqr :" + response.SquareRoot);
+
+            }
+            catch (RpcException e)
+            {
+
+                Console.WriteLine("Error " + e.Status.Detail);
+            }
+          
+        }
+
+
+
+
+
+
+
+
     }
 }

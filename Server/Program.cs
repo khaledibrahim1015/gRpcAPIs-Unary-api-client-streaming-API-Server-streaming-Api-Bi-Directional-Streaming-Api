@@ -21,7 +21,8 @@ namespace server
                                 CalclatorServive.BindService(new CalaculatorServiceImplementation()),
                                 PrimeNumberService.BindService(new PrimeNumberServiceImpl()),
                                 AverageService.BindService(new AverageServiceImpl()),
-                                FindMaxService.BindService(new FindMaxServiceImpl())
+                                FindMaxService.BindService(new FindMaxServiceImpl()),
+                                SqrtService.BindService(new SqrtServiceImpl())
                     },
                     Ports = { new ServerPort("localhost", port, ServerCredentials.Insecure) }
                 };
