@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server", "Server\server.csproj", "{E8A86E43-3581-4B85-913F-8790A5D21DCC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{EFAF434D-502C-4145-BBDF-DAFC4E60ED11}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server", "Server\server.csproj", "{E8A86E43-3581-4B85-913F-8790A5D21DCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{EFAF434D-502C-4145-BBDF-DAFC4E60ED11}"
+>>>>>>> 5b46fc2c7bea8d924ddd568eb0e21510329221fc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proto", "proto", "{ADC9D769-64D4-45C1-A736-A9ECCAE4EEEF}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,7 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proto", "proto", "{ADC9D769
 		greeting.proto = greeting.proto
 		max.proto = max.proto
 		prime.proto = prime.proto
+<<<<<<< HEAD
 		sqrt.proto = sqrt.proto
+=======
+>>>>>>> 5b46fc2c7bea8d924ddd568eb0e21510329221fc
 	EndProjectSection
 EndProject
 Global

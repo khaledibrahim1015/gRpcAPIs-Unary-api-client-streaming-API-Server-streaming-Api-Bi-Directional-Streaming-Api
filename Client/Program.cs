@@ -345,8 +345,11 @@ namespace Client
 
 
             // Error Handling 
-            int number = -1;
-            DoSqrtServicUnaryApi(channel,number);
+            #region SqrtService => UnaryAPI
+            ////SqrtService => UnaryAPI
+            //int number = -1;
+            //DoSqrtServicUnaryApi(channel,number); 
+            #endregion
 
 
 
